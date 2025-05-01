@@ -132,35 +132,3 @@ class SharedResource(models.Model):
         ordering = ['-created_at']
         unique_together = ('resource', 'client', 'session')
 
-        class SharedResourceForm(forms.ModelForm):
-            """Form for sharing resources with clients"""
-
-            class Meta:
-                model = SharedResource
-                fields = ['resource', 'client', 'session', 'note']
-                widgets = {
-                    'resource': forms.Select(attrs={'class': 'form-select'}),
-                    'client': forms.Select(attrs={'class': 'form-select'}),
-                    'session': forms.Select(attrs={'class': 'form-select'}),
-                    'note': forms.Textarea(attrs={'rows': 2, 'class': 'form-control'}),
-                }
-
-            def __init__(self, *args, **kwargs):
-                self.counselor = kwargs.pop('counselor', None)
-                super(SharedResourceForm, self).__init__(*args, **kwargs)
-
-                if self.counselor:
-                    # Filter resources created by this counselor
-                    self.fields['resource'].queryset = Resource.objects.filter(
-                        created_by=self.counselor
-                    ) | Resource.objects.filter(is_public=True)
-
-                    # Filter sessions conducted by this counselor
-                    self.fields['session'].queryset = Session.objects.filter(
-                        counselor=self.counselor
-                    )
-
-                    # Filter clients who have had sessions with this counselor
-                    self.fields['client'].queryset = self.fields['client'].queryset.filter(
-                        counseling_sessions__counselor=self.counselor
-                    ).distinct()
