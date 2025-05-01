@@ -96,3 +96,38 @@ class Resource(models.Model):
         ('worksheet', 'Worksheet'),
         ('other', 'Other'),
     )
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPE_CHOICES)
+    url = models.URLField(blank=True, null=True)
+    file = models.FileField(upload_to='counseling/resources/', blank=True, null=True)
+    created_by = models.ForeignKey(Counselor, on_delete=models.CASCADE, related_name="resources")
+    is_public = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.get_resource_type_display()})"
+
+    def get_absolute_url(self):
+        return reverse('counseling:resource_detail', kwargs={'pk': self.pk})
+
+    class Meta:
+        ordering = ['-created_at']
+
+
+class SharedResource(models.Model):
+    """Model to track resources shared with specific clients"""
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name="shares")
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="received_resources")
+    session = models.ForeignKey(Session, on_delete=models.SET_NULL, null=True, blank=True,
+                                related_name="shared_resources")
+    note = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.resource.title} shared with {self.client.username}"
+
+    class Meta:
+        ordering = ['-created_at']
+        unique_together = ('resource', 'client', 'session')
