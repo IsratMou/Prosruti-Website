@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up Options - PROTISRUTI{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2 text-center mb-4">
+        <h2>Join PROTISRUTI</h2>
+        <p>Choose how you would like to join our community</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header text-center">Join as a Survivor</div>
+            <div class="card-body">
+                <p class="card-text">Create an anonymous account to connect with professional counselors and access support resources.</p>
+                <ul>
+                    <li>Complete anonymity - use only a username</li>
+                    <li>Access to trained counselors</li>
+                    <li>Supportive community</li>
+                    <li>Resources for healing</li>
+                </ul>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'survivor_signup' %}" class="btn btn-primary">Register as Survivor</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header text-center">Join as a Counselor</div>
+            <div class="card-body">
+                <p class="card-text">Register as a professional counselor to provide support to survivors through our platform.</p>
+                <ul>
+                    <li>Verification required</li>
+                    <li>Make a meaningful difference</li>
+                    <li>Flexible scheduling</li>
+                    <li>Secure communication platform</li>
+                </ul>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'counselor_signup' %}" class="btn btn-outline-primary">Register as Counselor</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6 offset-md-3 text-center">
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+</div>
+{% endblock %}
