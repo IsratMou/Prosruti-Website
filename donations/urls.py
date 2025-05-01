@@ -14,3 +14,13 @@ urlpatterns = [
     path('sessions/', views.SessionListView.as_view(), name='session_list'),
     path('sessions/<int:pk>/', views.SessionDetailView.as_view(), name='session_detail'),
     path('sessions/create/', views.SessionCreateView.as_view(), name='session_create'),
+    path('sessions/<int:pk>/update/', views.SessionUpdateView.as_view(), name='session_update'),
+    path('sessions/<int:session_id>/notes/add/', views.create_session_note, name='create_session_note'),
+
+    # Resource URLs
+    path('resources/', views.ResourceListView.as_view(), name='resource_list'),
+    path('resources/<int:pk>/', views.ResourceDetailView.as_view(), name='resource_detail'),
+    path('resources/create/', views.ResourceCreateView.as_view(), name='resource_create'),
+    path('resources/<int:pk>/update/', views.ResourceUpdateView.as_view(), name='resource_update'),
+    path('resources/<int:resource_id>/share/', views.share_resource, name='share_resource'),
+]
