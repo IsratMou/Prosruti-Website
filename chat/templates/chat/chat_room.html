@@ -1,35 +1,10 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
-{% block content %}
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            Chat with {{ other_user.username }}
-        </div>
-        <div class="card-body">
-            <div id="chat-messages" style="height: 400px; overflow-y: auto;">
-                {% for message in messages %}
-                <div class="mb-2">
-                    <strong>{{ message.sender.username }}</strong>
-                    <small class="text-muted">{{ message.timestamp }}</small>
-                    <div>{{ message.content }}</div>
-                </div>
-                {% endfor %}
-            </div>
-            <form id="chat-form" method="post">
-                {% csrf_token %}
-                {{ form.content }}
-                <button type="submit" class="btn btn-primary mt-2">Send</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-{% block scripts %}
-<script>
-    const roomId = "{{ room.id }}";
-    const currentUserId = "{{ request.user.id }}";
-</script>
-<script src="{% static 'js/chat.js' %}"></script>
-{% endblock %}
-{% endblock %}
+</body>
+</html>
