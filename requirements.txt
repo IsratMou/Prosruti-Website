@@ -6,3 +6,4 @@ django-crispy-forms>=2.0
 crispy-bootstrap5>=0.7
 python-dotenv>=1.0.0
 djangorestframework>=3.14.0
+asgiref~=3.8.1
