@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72b19d29-d05e-4fe5-8ba0-d358149703e4" name="Changes" comment="Add Resource and SharedResource models to counseling app&#10;&#10;- Add Resource model with fields: title, description, resource_type, url, file, created_by (Counselor FK), is_public, created_at, updated_at&#10;- Implement __str__, get_absolute_url methods and ordering meta for Resource&#10;- Add SharedResource model to track resources shared with clients including resource FK, client FK, optional session FK, note, created_at&#10;- Implement __str__ method, ordering, and unique_together constraint on (resource, client, session) for SharedResource">
-      <change beforePath="$PROJECT_DIR$/counseling/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/counseling/forms.py" afterDir="false" />
+    <list default="true" id="72b19d29-d05e-4fe5-8ba0-d358149703e4" name="Changes" comment="Add counseling app forms for session, notes, and resources&#10;&#10;- Add clean_scheduled_at method to validate session scheduling&#10;- Create SessionUpdateForm for updating session status and meeting link&#10;- Create SessionNoteForm for adding and editing session notes with privacy option&#10;- Create ResourceForm for managing Resource model with fields and widgets for title, description, type, URL, file, and visibility">
+      <change beforePath="$PROJECT_DIR$/counseling/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/counseling/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +35,9 @@
     &quot;accountId&quot;: &quot;2cfda997-5bf0-4e2f-a3db-d055e7340d41&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/counseling/models.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -54,7 +57,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "anika"
+    "git-widget-placeholder": "anika",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
   <component name="RunManager">
@@ -144,6 +148,15 @@
       <option name="presentableId" value="Default" />
       <updated>1746035835917</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add counseling app forms for session, notes, and resources&#10;&#10;- Add clean_scheduled_at method to validate session scheduling&#10;- Create SessionUpdateForm for updating session status and meeting link&#10;- Create SessionNoteForm for adding and editing session notes with privacy option&#10;- Create ResourceForm for managing Resource model with fields and widgets for title, description, type, URL, file, and visibility">
+      <option name="closed" value="true" />
+      <created>1746139437439</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746139437440</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,6 +169,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add counseling app forms for session, notes, and resources&#10;&#10;- Add clean_scheduled_at method to validate session scheduling&#10;- Create SessionUpdateForm for updating session status and meeting link&#10;- Create SessionNoteForm for adding and editing session notes with privacy option&#10;- Create ResourceForm for managing Resource model with fields and widgets for title, description, type, URL, file, and visibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add counseling app forms for session, notes, and resources&#10;&#10;- Add clean_scheduled_at method to validate session scheduling&#10;- Create SessionUpdateForm for updating session status and meeting link&#10;- Create SessionNoteForm for adding and editing session notes with privacy option&#10;- Create ResourceForm for managing Resource model with fields and widgets for title, description, type, URL, file, and visibility" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Prosruti_Website$models.coverage" NAME="models Coverage Results" MODIFIED="1746137179931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/counseling" />
