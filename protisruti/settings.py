@@ -51,6 +51,19 @@ INSTALLED_APPS = [
     'donations',
 ]
 
+INSTALLED_APPS += ['channels']
+
+# For WebSockets (Channels configuration)
+ASGI_APPLICATION = 'protisruti.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
