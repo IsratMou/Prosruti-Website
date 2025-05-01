@@ -53,3 +53,46 @@ class SessionForm(forms.ModelForm):
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
             'meeting_link': forms.URLInput(attrs={'class': 'form-control'}),
         }
+
+        def clean_scheduled_at(self):
+            scheduled_at = self.cleaned_data.get('scheduled_at')
+            if scheduled_at and scheduled_at < timezone.now():
+                raise forms.ValidationError("Session cannot be scheduled in the past")
+            return scheduled_at
+
+    class SessionUpdateForm(forms.ModelForm):
+        """Form for updating session status"""
+
+        class Meta:
+            model = Session
+            fields = ['status', 'meeting_link']
+            widgets = {
+                'status': forms.Select(attrs={'class': 'form-select'}),
+                'meeting_link': forms.URLInput(attrs={'class': 'form-control'}),
+            }
+
+    class SessionNoteForm(forms.ModelForm):
+        """Form for creating and updating session notes"""
+
+        class Meta:
+            model = SessionNote
+            fields = ['note', 'is_private']
+            widgets = {
+                'note': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
+                'is_private': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            }
+
+    class ResourceForm(forms.ModelForm):
+        """Form for creating and updating resources"""
+
+        class Meta:
+            model = Resource
+            fields = ['title', 'description', 'resource_type', 'url', 'file', 'is_public']
+            widgets = {
+                'title': forms.TextInput(attrs={'class': 'form-control'}),
+                'description': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+                'resource_type': forms.Select(attrs={'class': 'form-select'}),
+                'url': forms.URLInput(attrs={'class': 'form-control'}),
+                'file': forms.FileInput(attrs={'class': 'form-control'}),
+                'is_public': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            }
