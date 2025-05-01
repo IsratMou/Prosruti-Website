@@ -51,6 +51,20 @@ INSTALLED_APPS = [
     'donations',
 ]
 
+
+
+ASGI_APPLICATION = 'protishruti.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+
+LOGIN_URL = '/accounts/login/'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
