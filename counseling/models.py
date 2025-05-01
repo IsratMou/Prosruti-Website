@@ -53,3 +53,46 @@ duration = models.PositiveIntegerField(default=60, help_text="Duration in minute
 meeting_link = models.URLField(blank=True, null=True, help_text="Link for online sessions")
 created_at = models.DateTimeField(auto_now_add=True)
 updated_at = models.DateTimeField(auto_now=True)
+
+
+def __str__(self):
+    return f"Session: {self.title} ({self.get_status_display()})"
+
+
+def get_absolute_url(self):
+    return reverse('counseling:session_detail', kwargs={'pk': self.pk})
+
+
+@property
+def is_past_due(self):
+    return timezone.now() > self.scheduled_at
+
+
+class Meta:
+    ordering = ['-scheduled_at']
+
+
+class SessionNote(models.Model):
+    """Model for counselor's notes on sessions"""
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="notes")
+    note = models.TextField()
+    is_private = models.BooleanField(default=True, help_text="Private notes are only visible to the counselor")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        visibility = "Private" if self.is_private else "Shared"
+        return f"{visibility} Note for {self.session.title}"
+
+    class Meta:
+        ordering = ['-created_at']
+
+class Resource(models.Model):
+    """Model for counseling resources that can be shared with clients"""
+    RESOURCE_TYPE_CHOICES = (
+        ('article', 'Article'),
+        ('video', 'Video'),
+        ('exercise', 'Exercise'),
+        ('worksheet', 'Worksheet'),
+        ('other', 'Other'),
+    )
