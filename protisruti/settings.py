@@ -51,10 +51,9 @@ INSTALLED_APPS = [
     'donations',
 ]
 
-INSTALLED_APPS += ['channels']
 
-# For WebSockets (Channels configuration)
-ASGI_APPLICATION = 'protisruti.asgi.application'
+
+ASGI_APPLICATION = 'protishruti.asgi.application'
 
 
 CHANNEL_LAYERS = {
@@ -63,6 +62,8 @@ CHANNEL_LAYERS = {
     },
 }
 
+
+LOGIN_URL = '/accounts/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
