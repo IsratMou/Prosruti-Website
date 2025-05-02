@@ -25,6 +25,7 @@ class DonationListView(ListView):
 
 
 class DonationCreateView(CreateView):
+
     model = Donation
     form_class = DonationForm
     template_name = 'donations/donate.html'
@@ -33,7 +34,7 @@ class DonationCreateView(CreateView):
     def form_valid(self, form):
         donation = form.save(commit=False)
 
-        #  user authentication
+        #  user Authentication
         if self.request.user.is_authenticated:
             donation.user = self.request.user
             if not donation.donor_name:
@@ -41,11 +42,11 @@ class DonationCreateView(CreateView):
             if not donation.donor_email:
                 donation.donor_email = self.request.user.email
 
-        #  transaction ID
+
         donation.transaction_id = get_random_string(length=16)
         donation.save()
 
-        # Store donation ID in session to retrieve it on payment page
+
         self.request.session['donation_id'] = donation.id
 
         return super().form_valid(form)
@@ -64,14 +65,10 @@ def process_payment(request):
         messages.error(request, "Donation not found.")
         return redirect('donations:donate')
 
-    # This is a simplified payment process
-
+    #  payment process
     if request.method == 'POST':
-        # Simulate successful payment
         donation.status = 'completed'
         donation.save()
-
-        # Clear session
         if 'donation_id' in request.session:
             del request.session['donation_id']
 
@@ -100,3 +97,4 @@ class UserDonationHistoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Donation.objects.filter(user=self.request.user).order_by('-created_at')
+
