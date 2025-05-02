@@ -6,19 +6,19 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .forms import LoginForm, SurvivorSignUpForm, CounselorSignUpForm
+from .forms import LoginForm, UserSignUpForm, CounselorSignUpForm
 from .models import CustomUser
 
 class HomeView(TemplateView):
     template_name = 'home.html'
 
 class SignupOptionsView(TemplateView):
-    template_name = 'accounts/signup_options.html'
+    template_name = 'accounts/login_options.html'
 
 class SurvivorSignUpView(CreateView):
     model = CustomUser
-    form_class = SurvivorSignUpForm
-    template_name = 'accounts/survivor_signup.html'
+    form_class = UserSignUpForm
+    template_name = 'accounts/register_user.html'
     success_url = reverse_lazy('login')
     
     def form_valid(self, form):
@@ -29,7 +29,7 @@ class SurvivorSignUpView(CreateView):
 class CounselorSignUpView(CreateView):
     model = CustomUser
     form_class = CounselorSignUpForm
-    template_name = 'accounts/counselor_signup.html'
+    template_name = 'accounts/register_counselor.html'
     success_url = reverse_lazy('login')
     
     def form_valid(self, form):
@@ -65,7 +65,7 @@ def logout_view(request):
 def dashboard_view(request):
     user_type = request.user.user_type
     if user_type == 'survivor':
-        return render(request, 'accounts/survivor_dashboard.html')
+        return render(request, 'accounts/user_dashboard.html')
     elif user_type == 'counselor':
         return render(request, 'accounts/counselor_dashboard.html')
     else:
