@@ -15,7 +15,7 @@ class LoginForm(AuthenticationForm):
         model = CustomUser
         fields = ['username', 'password']
 
-class SurvivorSignUpForm(UserCreationForm):
+class UserSignUpForm(UserCreationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Choose a unique username'})
     )
