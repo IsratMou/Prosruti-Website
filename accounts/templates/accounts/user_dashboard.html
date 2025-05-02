@@ -1,10 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Survivor Dashboard - PROTISRUTI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">Welcome, {{ user.username }}</h3>
+            </div>
+            <div class="card-body">
+                <p>This is your safe space. Here you can find support, resources, and connect with professional counselors who are here to help.</p>
+                <p class="empowering-text">"Every step forward, no matter how small, is a step towards healing."</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Available Counselors</h4>
+            </div>
+            <div class="card-body">
+                <p>Connect with a counselor for a private session:</p>
+                
+                <div class="list-group">
+                    <!-- This would be populated with actual counselors from the database -->
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Dr. Sarah Johnson</h5>
+                            <span class="badge bg-success">Available</span>
+                        </div>
+                        <p class="mb-1">Specializes in trauma recovery and PTSD</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Michael Williams</h5>
+                            <span class="badge bg-success">Available</span>
+                        </div>
+                        <p class="mb-1">Focuses on healing and rebuilding relationships</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Dr. Emily Chen</h5>
+                            <span class="badge bg-secondary">Busy</span>
+                        </div>
+                        <p class="mb-1">Specializes in anxiety management and coping strategies</p>
+                    </a>
+                </div>
+                
+                <div class="mt-3">
+                    <a href="#" class="btn btn-outline-primary">Schedule a Session</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h4>Your Upcoming Sessions</h4>
+            </div>
+            <div class="card-body">
+                <p>You have no upcoming sessions scheduled.</p>
+                <a href="#" class="btn btn-primary">Book a Session</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Resources</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="#">Self-Care Strategies</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#">Coping Mechanisms</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#">Understanding Trauma</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#">Building Resilience</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#">Recovery Journey</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h4>Support Groups</h4>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Healing Together</h5>
+                            <small>Tuesdays, 7 PM</small>
+                        </div>
+                        <p class="mb-1">A supportive community for sharing and healing</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Finding Strength</h5>
+                            <small>Fridays, 6 PM</small>
+                        </div>
+                        <p class="mb-1">Focus on rebuilding confidence and empowerment</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
