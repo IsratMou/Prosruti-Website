@@ -11,6 +11,7 @@ from .forms import DonationForm
 
 
 class DonationListView(ListView):
+    """Display list of public donations"""
     model = Donation
     template_name = 'donations/donation_list.html'
     context_object_name = 'donations'
@@ -25,7 +26,7 @@ class DonationListView(ListView):
 
 
 class DonationCreateView(CreateView):
-
+    """View for creating a new donation"""
     model = Donation
     form_class = DonationForm
     template_name = 'donations/donate.html'
@@ -34,7 +35,7 @@ class DonationCreateView(CreateView):
     def form_valid(self, form):
         donation = form.save(commit=False)
 
-        #  user Authentication
+        # If user is logged in, associate donation with user
         if self.request.user.is_authenticated:
             donation.user = self.request.user
             if not donation.donor_name:
@@ -42,17 +43,19 @@ class DonationCreateView(CreateView):
             if not donation.donor_email:
                 donation.donor_email = self.request.user.email
 
-
+        # Generate a transaction ID
         donation.transaction_id = get_random_string(length=16)
         donation.save()
 
-
+        # Store donation ID in session to retrieve it on payment page
         self.request.session['donation_id'] = donation.id
 
         return super().form_valid(form)
 
 
 def process_payment(request):
+    """Process payment for donation"""
+    # In a real application, this would integrate with a payment gateway
     donation_id = request.session.get('donation_id')
 
     if not donation_id:
@@ -65,10 +68,16 @@ def process_payment(request):
         messages.error(request, "Donation not found.")
         return redirect('donations:donate')
 
-    #  payment process
+    # This is a simplified payment process
+    # In a real application, redirect to payment gateway
+
+    # For demonstration, simulate successful payment
     if request.method == 'POST':
+        # Simulate successful payment
         donation.status = 'completed'
         donation.save()
+
+        # Clear session
         if 'donation_id' in request.session:
             del request.session['donation_id']
 
@@ -79,6 +88,7 @@ def process_payment(request):
 
 
 class DonationSuccessView(DetailView):
+    """Display donation confirmation"""
     model = Donation
     template_name = 'donations/donation_success.html'
     context_object_name = 'donation'
@@ -90,6 +100,7 @@ class DonationSuccessView(DetailView):
 
 
 class UserDonationHistoryView(LoginRequiredMixin, ListView):
+    """Display donation history for logged-in user"""
     model = Donation
     template_name = 'donations/donation_history.html'
     context_object_name = 'donations'
@@ -97,4 +108,3 @@ class UserDonationHistoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Donation.objects.filter(user=self.request.user).order_by('-created_at')
-
