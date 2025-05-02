@@ -41,35 +41,30 @@ class Session(models.Model):
         ('in_person', 'In Person'),
     )
 
+    counselor = models.ForeignKey(Counselor, on_delete=models.CASCADE, related_name="sessions")
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="counseling_sessions")
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    session_type = models.CharField(max_length=20, choices=SESSION_TYPE_CHOICES, default='text')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
+    scheduled_at = models.DateTimeField()
+    duration = models.PositiveIntegerField(default=60, help_text="Duration in minutes")
+    meeting_link = models.URLField(blank=True, null=True, help_text="Link for online sessions")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-counselor = models.ForeignKey(Counselor, on_delete=models.CASCADE, related_name="sessions")
-client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="counseling_sessions")
-title = models.CharField(max_length=200)
-description = models.TextField(blank=True, null=True)
-session_type = models.CharField(max_length=20, choices=SESSION_TYPE_CHOICES, default='text')
-status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
-scheduled_at = models.DateTimeField()
-duration = models.PositiveIntegerField(default=60, help_text="Duration in minutes")
-meeting_link = models.URLField(blank=True, null=True, help_text="Link for online sessions")
-created_at = models.DateTimeField(auto_now_add=True)
-updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f"Session: {self.title} ({self.get_status_display()})"
 
+    def get_absolute_url(self):
+        return reverse('counseling:session_detail', kwargs={'pk': self.pk})
 
-def __str__(self):
-    return f"Session: {self.title} ({self.get_status_display()})"
+    @property
+    def is_past_due(self):
+        return timezone.now() > self.scheduled_at
 
-
-def get_absolute_url(self):
-    return reverse('counseling:session_detail', kwargs={'pk': self.pk})
-
-
-@property
-def is_past_due(self):
-    return timezone.now() > self.scheduled_at
-
-
-class Meta:
-    ordering = ['-scheduled_at']
+    class Meta:
+        ordering = ['-scheduled_at']
 
 
 class SessionNote(models.Model):
@@ -87,6 +82,7 @@ class SessionNote(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+
 class Resource(models.Model):
     """Model for counseling resources that can be shared with clients"""
     RESOURCE_TYPE_CHOICES = (
@@ -96,6 +92,7 @@ class Resource(models.Model):
         ('worksheet', 'Worksheet'),
         ('other', 'Other'),
     )
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPE_CHOICES)
