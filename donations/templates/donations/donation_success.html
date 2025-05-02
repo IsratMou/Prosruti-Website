@@ -1,10 +1,410 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{# templates/donations/donate.html #}
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Support Our Cause | Auto Protishruti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Support Our Cause</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <p class="lead">Your contribution helps us provide counseling services to those in need. Every donation makes a difference in someone's life.</p>
+                    </div>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <h5>Donation Amount</h5>
+                            <div class="mb-3">
+                                {{ form.amount.label_tag }}
+                                {{ form.amount }}
+                                {% if form.amount.errors %}
+                                    <div class="text-danger small">{{ form.amount.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>Payment Method</h5>
+                            <div class="mb-3">
+                                {{ form.payment_method.label_tag }}
+                                {{ form.payment_method }}
+                                {% if form.payment_method.errors %}
+                                    <div class="text-danger small">{{ form.payment_method.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>Your Information</h5>
+                            <div class="mb-3">
+                                {{ form.donor_name.label_tag }}
+                                {{ form.donor_name }}
+                                {% if form.donor_name.errors %}
+                                    <div class="text-danger small">{{ form.donor_name.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.donor_email.label_tag }}
+                                {{ form.donor_email }}
+                                {% if form.donor_email.errors %}
+                                    <div class="text-danger small">{{ form.donor_email.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.donor_phone.label_tag }}
+                                {{ form.donor_phone }}
+                                {% if form.donor_phone.errors %}
+                                    <div class="text-danger small">{{ form.donor_phone.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>Message (Optional)</h5>
+                            <div class="mb-3">
+                                {{ form.message }}
+                                {% if form.message.errors %}
+                                    <div class="text-danger small">{{ form.message.errors }}</div>
+                                {% endif %}
+                                <div class="form-text">Share why you're donating or leave words of encouragement.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            {{ form.is_anonymous }}
+                            <label class="form-check-label" for="{{ form.is_anonymous.id_for_label }}">
+                                Make my donation anonymous
+                            </label>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Proceed to Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{# templates/donations/process_payment.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Process Payment | Auto Protishruti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Complete Your Donation</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4>Donation Summary</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th>Amount:</th>
+                                    <td>{{ donation.amount }} {{ donation.currency }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Payment Method:</th>
+                                    <td>{{ donation.get_payment_method_display }}</td>
+                                </tr>
+                                {% if not donation.is_anonymous %}
+                                <tr>
+                                    <th>Donor Name:</th>
+                                    <td>{{ donation.donor_name }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <th>Transaction ID:</th>
+                                    <td>{{ donation.transaction_id }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    {# In a real application, this is where payment gateway integration would happen #}
+                    <div class="alert alert-info">
+                        <p><strong>Note:</strong> This is a demonstration. In a real application, you would be redirected to a secure payment gateway.</p>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {# Simulated payment form fields would go here #}
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-success btn-lg">Complete Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{# templates/donations/donation_success.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donation Successful | Auto Protishruti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h2 class="mb-0">Thank You for Your Support!</h2>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                    </div>
+
+                    <h4>Your donation has been processed successfully</h4>
+                    <p class="lead">Transaction ID: {{ donation.transaction_id }}</p>
+                    <p>Amount: <strong>{{ donation.amount }} {{ donation.currency }}</strong></p>
+
+                    <div class="alert alert-info mt-4">
+                        <p>A confirmation email has been sent to {{ donation.donor_email }}</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'donations:donation_history' %}" class="btn btn-outline-secondary ms-2">View Donation History</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{# templates/donations/donation_list.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Recent Donations | Auto Protishruti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Recent Supporters</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <p class="lead">We're grateful to everyone who supports our mission. Here are some of our recent donors:</p>
+                    </div>
+
+                    {% if donations %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for donation in donations %}
+                                    <tr>
+                                        <td>{{ donation.donor_name }}</td>
+                                        <td>{{ donation.amount }} {{ donation.currency }}</td>
+                                        <td>{{ donation.created_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            {% if donation.message %}
+                                                {{ donation.message|truncatechars:50 }}
+                                            {% else %}
+                                                <em>No message</em>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {# Pagination #}
+                        {% if is_paginated %}
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="alert alert-info">
+                            <p>No donations have been made yet. Be the first to support our cause!</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'donations:donate' %}" class="btn btn-primary btn-lg">Make a Donation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{# templates/donations/donation_history.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Donation History | Auto Protishruti{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">My Donation History</h2>
+                </div>
+                <div class="card-body">
+                    {% if donations %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Payment Method</th>
+                                        <th>Status</th>
+                                        <th>Transaction ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for donation in donations %}
+                                    <tr>
+                                        <td>{{ donation.created_at|date:"M d, Y H:i" }}</td>
+                                        <td>{{ donation.amount }} {{ donation.currency }}</td>
+                                        <td>{{ donation.get_payment_method_display }}</td>
+                                        <td>
+                                            {% if donation.status == 'completed' %}
+                                                <span class="badge bg-success">{{ donation.get_status_display }}</span>
+                                            {% elif donation.status == 'pending' %}
+                                                <span class="badge bg-warning text-dark">{{ donation.get_status_display }}</span>
+                                            {% elif donation.status == 'failed' %}
+                                                <span class="badge bg-danger">{{ donation.get_status_display }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ donation.get_status_display }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ donation.transaction_id }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {# Pagination #}
+                        {% if is_paginated %}
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+
+                    {% else %}
+                        <div class="alert alert-info">
+                            <p>You haven't made any donations yet.</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'donations:donate' %}" class="btn btn-primary">Make a New Donation</a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary ms-2">Return to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
