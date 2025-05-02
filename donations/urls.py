@@ -1,9 +1,13 @@
 from django.urls import path
-from django.http import HttpResponse
+from . import views
 
-def empty_view(request):
-    return HttpResponse("Donations coming soon")
+app_name = 'donations'
 
 urlpatterns = [
-    path('', empty_view, name='donations_home'),
+    path('', views.DonationCreateView.as_view(), name='donate'),
+    path('list/', views.DonationListView.as_view(), name='donation_list'),
+    path('process/', views.process_payment, name='process_payment'),
+    path('success/<int:pk>/', views.DonationSuccessView.as_view(), name='donation_success'),
+    path('history/', views.UserDonationHistoryView.as_view(), name='donation_history'),
 ]
+
