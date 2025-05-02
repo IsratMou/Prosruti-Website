@@ -1,64 +1,85 @@
 {% extends 'base.html' %}
 
-{% block title %}PROTISRUTI - Support for Survivors{% endblock %}
+{% block title %}Protisruti - Home{% endblock %}
 
 {% block content %}
-<div class="hero-section mb-5">
-    <h1>Welcome to PROTISRUTI</h1>
-    <p class="lead">A safe space where survivors find support, healing, and strength.</p>
-</div>
-
-<div class="row">
-    <div class="col-md-8 offset-md-2 text-center mb-5">
-        <h2>Your Journey to Healing</h2>
-        <p class="empowering-text">"Every survivor has the right to be heard, supported, and empowered on their journey to healing."</p>
-        <p>At PROTISRUTI, we understand the importance of privacy and anonymity. Our platform allows you to connect with professional counselors without revealing your identity, providing a safe environment for your healing process.</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <h1 class="display-4 mb-4">Welcome to Protisruti</h1>
+            <p class="lead mb-5">A platform connecting those in need with professional counselors</p>
+        </div>
     </div>
-</div>
-
-<div class="row mb-5">
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-header text-center">For Survivors</div>
-            <div class="card-body">
-                <p>Connect with trained counselors anonymously, share your story, and begin your healing journey in a safe, supportive environment.</p>
-                <ul>
-                    <li>Anonymous counseling sessions</li>
-                    <li>Safe and supportive community</li>
-                    <li>Resources for healing and empowerment</li>
-                </ul>
-                <div class="text-center mt-4">
-                    <a href="{% url 'survivor_signup' %}" class="btn btn-primary">Sign Up as Survivor</a>
+    
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body text-center p-5">
+                    <h3 class="card-title">Need Support?</h3>
+                    <p class="card-text mb-4">Connect with professional counselors who can help you navigate difficult situations.</p>
+                    <a href="{% url 'register_user' %}" class="btn btn-primary btn-lg">Register as User</a>
+                    <p class="mt-3">
+                        <a href="{% url 'login' %}?next={% url 'user_dashboard' %}">Already have an account? Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body text-center p-5">
+                    <h3 class="card-title">Professional Counselor?</h3>
+                    <p class="card-text mb-4">Join our network of counselors and help those in need through our platform.</p>
+                    <a href="{% url 'register_counselor' %}" class="btn btn-outline-primary btn-lg">Register as Counselor</a>
+                    <p class="mt-3">
+                        <a href="{% url 'login' %}?next={% url 'counselor_dashboard' %}">Already registered? Login</a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-header text-center">For Counselors</div>
-            <div class="card-body">
-                <p>Join our network of professional counselors dedicated to supporting survivors through their healing journey.</p>
-                <ul>
-                    <li>Make a meaningful difference</li>
-                    <li>Flexible scheduling</li>
-                    <li>Secure communication platform</li>
-                </ul>
-                <div class="text-center mt-4">
-                    <a href="{% url 'counselor_signup' %}" class="btn btn-outline-primary">Join as Counselor</a>
+    
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h2 class="mb-4">How It Works</h2>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 text-center">
+                <div class="card-body">
+                    <div class="display-4 mb-3">1</div>
+                    <h4>Register</h4>
+                    <p>Create an account as a user or counselor</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 text-center">
+                <div class="card-body">
+                    <div class="display-4 mb-3">2</div>
+                    <h4>Connect</h4>
+                    <p>Users are matched with qualified counselors</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 text-center">
+                <div class="card-body">
+                    <div class="display-4 mb-3">3</div>
+                    <h4>Communicate</h4>
+                    <p>Interact securely through our platform</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-body text-center">
-                <h3>Already have an account?</h3>
-                <p>Log in to access your dashboard and connect with support resources.</p>
-                <a href="{% url 'login' %}" class="btn btn-primary">Login Now</a>
-            </div>
+    
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2 class="mb-4">Support Our Mission</h2>
+            <p class="mb-4">Help us provide counseling services to those in need</p>
+            <a href="{% url 'donate' %}" class="btn btn-success btn-lg">Make a Donation</a>
         </div>
     </div>
 </div>
